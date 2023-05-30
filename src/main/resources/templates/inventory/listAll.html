@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-3">
+
+		<div class="card bg-light">
+                    <div class="card-header" th:text="${title}"></div>
+
+                    
+			<div class="card-body">
+
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                            <th>Id</th>
+                                            <th>
+                                                <a th:href="@{'/inventory/listAll?page=' + ${currentPage} + 
+                                                   '&sortField=code&sortDir=' + ${reverseSortDir}}">Código</a>
+                                            </th>
+                                            <th>
+                                                <a th:href="@{'/inventory/listAll?page=' + ${currentPage} + 
+                                                   '&sortField=name&sortDir=' + ${reverseSortDir}}">Nombre</a>
+                                            </th>
+                                            <th>
+                                                <a th:href="@{'/inventory/listAll?page=' + ${currentPage} + 
+                                                   '&sortField=brand&sortDir=' + ${reverseSortDir}}">Marca</a>
+                                            </th>
+                                            <th>Descripción</th>
+                                            <th>Precio</th>
+                                            <th>
+                                                <a th:href="@{'/inventory/listAll?page=' + ${currentPage} + 
+                                                   '&sortField=category&sortDir=' + ${reverseSortDir}}">Categoría</a>
+                                            </th>
+                                            <th>
+                                                <a th:href="@{'/inventory/listAll?page=' + ${currentPage} + 
+                                                   '&sortField=existences&sortDir=' + ${reverseSortDir}}">Existencias</a>
+                                            </th>
+                                            <th>Mínimo</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>                                            
+                                        &nbsp;    
+                                        </td>
+                                        <td>
+                                            <form th:action="@{/inventory/listAll}" method="=get">
+                                                <input id="searchByCode" type="text" name="code" class="form-control" >
+                                                <button type="submit" class="btn btn-info btn-sm" >Buscar</button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form th:action="@{/inventory/listAll}" method="=get">
+                                                <input id="searchByName" type="text" name="name" class="form-control" >
+                                                <button type="submit" class="btn btn-info btn-sm" >Buscar</button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form th:action="@{/inventory/listAll}" method="=get">
+                                                <input id="searchByBrand" type="text" name="brand" class="form-control" >
+                                                <button type="submit" class="btn btn-info btn-sm" >Buscar</button>
+                                            </form> 
+                                        </td>
+                                        <td>&nbsp; </td>
+                                        <td>&nbsp; </td>
+                                        <td>
+                                            <form th:action="@{/inventory/listAll}" method="=get">
+                                                <input id="searchByCategory" type="text" name="category" class="form-control" >
+                                                <button type="submit" class="btn btn-info btn-sm" >Buscar</button>
+                                            </form> 
+                                        </td>
+                                        <td>&nbsp; </td>
+                                        <td>&nbsp; </td>
+                                        
+                                    </tr>
+                                    
+                                    <tr th:each="product: ${products}">
+                                        <td>
+                                            <a class="btn btn-primary btn-xs"
+                                                th:href="@{/products/detail/} + ${product.id}" th:text="${product.id}"></a>
+                                        </td>
+                                        <td th:text="${product.code}"></td>                                                                        
+                                        <td th:text="${product.name}"></td>
+                                        <td th:text="${product.brand}"></td>                                        
+                                        <td th:text="${product.description}"></td>                                                       
+                                        <td th:text="${product.price}"></td>							
+                                        <td th:text="${product.category}"></td>
+                                        <td th:text="${product.existences} + ' ' + ${product.unit}"></td>
+                                        <td th:text="${product.min} + ' ' + ${product.unit}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+				
+			</div>
+		</div>
+
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

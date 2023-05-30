@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+
+	<div class="container py-4">
+
+		<div class="card bg-light">
+			<div class="card-header" th:text="${title}"></div>
+			<div class="card-body">
+
+				<h4 class="card-title">
+					<a th:href="@{/products/form}" class="btn btn-primary">Agregar Producto</a>
+				</h4>
+
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Id</th>
+                                                        <th>Code</th>
+							<th>Nombre</th>
+							<th>Descripción</th>
+                                                        <th>Precio</th>
+							<th>Registrar venta</th>
+                                                        <th>Registrar compra</th>
+							<th>Editar</th>
+							<th>Eliminar</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="product: ${products}">
+							<td><a class="btn btn-primary btn-xs"
+								th:href="@{/products/detail/} + ${product.id}" th:text="${product.id}"></a></td>
+							
+                                                        <td th:text="${product.code}"></td>        
+                                                                
+                                                        <td th:text="${product.name}"></td>
+                                                   
+                                                        <td th:text="${product.description}"></td>
+                                                        
+                                                        <td th:text="${product.price}"></td>
+							
+							<td><a class="btn btn-success btn-sm"
+								th:href="@{'/factura/form/' + ${product.id}}"
+								th:text="'Registrar Venta'"></a>
+                                                        </td>
+                                                             
+                                                        <td><a class="btn btn-success btn-sm"
+								th:href="@{'/factura/form/' + ${product.id}}"
+								th:text="'Registrar Compra'"></a>
+                                                        </td>
+                                                        
+							<td><a class="btn btn-primary btn-sm"
+								th:href="@{/product/form/} + ${product.id}" th:text="'Editar'"></a></td>
+							<td><a class="btn btn-danger btn-sm"
+								th:href="@{/product/eliminar/} + ${product.id}" th:text="'Eliminar'"
+								onclick="return confirm('Estás seguro que quieres eliminar?');"></a></td>
+						</tr>
+					</tbody>
+
+				</table>
+				
+			</div>
+		</div>
+
+	</div>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

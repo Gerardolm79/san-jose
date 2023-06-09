@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+    <header th:replace="layout/layout :: header"></header>
+
+    <div class="container py-4">
+
+        <div class="card bg-light">
+            <div class="card-header" th:text="${title}"></div>
+            <div class="card-body">
+
+                <h4 class="card-title">
+                        <a th:href="@{/purchases/form}" class="btn btn-primary">Agregar Venta</a>
+                </h4>
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                                <th>No. Orden</th>
+                                <th>
+                                    
+                                <a th:href="@{'/purchases/listAll?page=' + ${currentPage} + '&sortField=name&sortDir=' + ${reverseSortDir}}">
+                                    Proveedor
+                                </a>
+                                </th>                                
+                                <th>
+                                    <a th:href="@{'/purchases/listAll?page=' + ${currentPage} + '&sortField=phone&sortDir=' + ${reverseSortDir}}">
+                                    Fecha
+                                    </a>
+                                </th>
+                                <th>Total</th>
+                                <th>Observaciones</th>
+                                <th>Editar</th>
+                                <th>Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="purchase: ${purchases}">
+                            <td><a class="btn btn-primary btn-xs"
+                                    th:href="@{/purchases/detail/} + ${purchase.id}" th:text="${purchase.id}"></a></td>
+                            <td th:text="${purchase.provider.name}"></td>
+
+                            <td th:text="${purchase.orderDate}"></td>
+                            <td th:text="${purchase.total}"></td>
+                            <td th:text="${purchase.observations}"></td>
+                            <td><a class="btn btn-success btn-sm"
+                                    th:href="@{'/purchase/form/' + ${purchase.id}}"
+                                    th:text="'Registrar Compra'"></a></td>
+                            <td><a class="btn btn-primary btn-sm"
+                                    th:href="@{/purchase/form/} + ${purchase.id}" th:text="'Editar'"></a></td>
+                            <td><a class="btn btn-danger btn-sm"
+                                    th:href="@{/purchase/eliminar/} + ${purchase.id}" th:text="'Eliminar'"
+                                        onclick="return confirm('Estás seguro que quieres eliminar?');"></a></td>
+                        </tr>
+                    </tbody>
+
+                </table>    
+                <!-- nav  th:replace="purchases/paginator-nav :: paginator"></nav -->
+                <div th:if ="${totalPages > 1} ">
+                    <div class = "row col-sm-10">
+                        <div class = "col-sm-2">
+                            Total: [[${totalItems}]]
+                        </div>    
+                        <div class ="col-sm-1">
+                            <span th:each="i: ${#numbers.sequence(1, totalPages)}"> 
+                                <a th:if="${currentPage != i}" th:href="@{'/purchases/listAll?page=' + ${i} + 
+                                   '&sortField=' + {sortField} + '&sortDir=' + ${sortDir}}"> [[${i}]] </a>
+                                <span th:unless="${currentPage!=i}">[[${i}]]</span> &nbsp;&nbsp;
+                            </span>
+                        </div>
+                        <div class ="col-sm-1">
+                            <a th:if="${currentPage < totalPages}" th:href="@{'/purchases/listAll?page=' + ${currentPage + 1} +
+                               '&sortField=' + {sortField} + '&sortDir=' + ${sortDir}}"> Next </a> 
+                            <span th:unless="${currentPage < totalPages}"> Next </span>
+                        </div>
+                        <div class ="col-sm-1">
+                            <a th:if="${currentPage < totalPages}" th:href="@{'/purchases/listAll?page=' + ${totalPages} + 
+                               '&sortField=' + {sortField} + '&sortDir=' + ${sortDir}}"> Last </a> 
+                            <span th:unless="${currentPage < totalPages}"> Last </span>
+                        </div>
+                    </div>                    
+                </div>            
+            </div>
+        </div>
+    </div>
+    <footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

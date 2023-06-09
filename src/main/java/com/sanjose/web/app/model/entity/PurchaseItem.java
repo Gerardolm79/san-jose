@@ -4,30 +4,72 @@
  */
 package com.sanjose.web.app.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
+
+import java.io.Serializable;
 
 /**
  *
  * @author GLM
  */
 @Entity
-@Table(name="PURCHASE_ITEM")
-public class PurchaseItem {
+@Table(name="PURCHASE_ITEMS")
+public class PurchaseItem implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private Integer quantity;
+
+    private Double unitPrice;
+
+    private Double amount;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PURCHASE_ID")
+    private Purchase purchase;
 
     public Long getId() {
         return id;
     }
 
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public Double getUnitPrice() {
+        return unitPrice;
+    }
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    @JsonBackReference(value="secondParent")
+    public Purchase getPurchase() {
+        return purchase;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
-    
-    
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public void setUnitPrice(Double unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    public void setPurchase(Purchase purchase) {
+        this.purchase = purchase;
+    }
+
+    private static final long serialVersionUID = 1L;
 }

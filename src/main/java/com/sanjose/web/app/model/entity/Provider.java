@@ -4,13 +4,13 @@
  */
 package com.sanjose.web.app.model.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -18,7 +18,7 @@ import java.util.Date;
  */
 @Entity
 @Table (name="PROVIDERS")
-public class Provider {
+public class Provider implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,6 +39,13 @@ public class Provider {
     
     @Column(name="MODIFIED_DATE")
     private Date modifiedDate;
+
+    @OneToMany(mappedBy = "provider", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Purchase> purchases;
+
+    public Provider(){
+        this.purchases = new ArrayList<>();
+    }
 
     public Long getId() {
         return id;
@@ -70,6 +77,11 @@ public class Provider {
 
     public Date getModifiedDate() {
         return modifiedDate;
+    }
+
+    @JsonManagedReference
+    public List<Purchase> getPurchases() {
+        return purchases;
     }
 
     public void setId(Long id) {
@@ -104,10 +116,14 @@ public class Provider {
         this.modifiedDate = modifiedDate;
     }
 
+    public void setPurchases(List<Purchase> purchases) {
+        this.purchases = purchases;
+    }
+
     @Override
     public String toString() {
         return "Provider{" + "id=" + id + ", name=" + name + ", status=" + status + '}';
     }
-    
-    
+
+    private static final long serialVersionUID = 1L;
 }

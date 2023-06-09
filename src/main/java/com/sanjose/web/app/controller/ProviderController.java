@@ -21,7 +21,7 @@ public class ProviderController {
     @GetMapping("/listAll")
     public String listAll(Model model){
         model.addAttribute("title", "Lista de proveedores");
-        model.addAttribute("products", providerSvc.findAll());
+        model.addAttribute("providers", providerSvc.findAll());
         return "provider/listAll";
     }
 }
